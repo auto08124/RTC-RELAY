@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบเปิด-ปิดไฟอัตโนมัติโดย RTC และรีเลย์</title>
+  <style>
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      padding: 25px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+      background-color: #4682b4;
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+    .subtitle {
+      font-size: 16px;
+      margin-top: 5px;
+    }
+    .control-panel {
+      background-color: #e6f2ff;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    .status {
+      font-size: 20px;
+      margin: 15px 0;
+    }
+    #status {
+      font-weight: bold;
+      padding: 5px 15px;
+      border-radius: 20px;
+    }
+    .on { 
+      background-color: #90ee90;
+      color: #006400;
+    }
+    .off { 
+      background-color: #ffcccb;
+      color: #8b0000;
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    .btn-on { 
+      background-color: #32cd32;
+      color: white;
+    }
+    .btn-off { 
+      background-color: #ff4500;
+      color: white;
+    }
+    .project-section {
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    h2 {
+      color: #4682b4;
+      border-left: 5px solid #4682b4;
+      padding-left: 10px;
+      margin-top: 25px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #666;
+      font-size: 14px;
+    }
+    @media (max-width: 600px) {
+      .buttons {
+        flex-direction: column;
+      }
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Auto Light Contol with RTC & relay</h1>
+      <div class="subtitle">ระบบเปิด-ปิดไฟอัตโนมัติโดย RTC และรีเลย์</div>
+    </div>
+
+    <div class="control-panel">
+      <div class="status">
+        สถานะไฟปัจจุบัน: <span id="status" class="off">ปิด</span>
+      </div>
+      <div class="buttons">
+        <button class="btn-on" onclick="setStatus('เปิด')">เปิดไฟ</button>
+        <button class="btn-off" onclick="setStatus('ปิด')">ปิดไฟ</button>
+      </div>
+    </div>
+
+    <div class="project-section">
+      <h2>ที่มาและความสำคัญ</h2>
+      <ul>
+        <li>การควบคุมไฟแบบมือทำให้เปลืองไฟและไม่สะดวก</li>
+        <li>ลืมปิดไฟทำให้ค่าไฟแพงขึ้น</li>
+        <li>ใช้เทคโนโลยี IoT ควบคุมไฟอัตโนมัติ</li>
+        <li>โมดูล RTC ตั้งเวลาได้แม่นยำ</li>
+        <li>ใช้ Relay เป็นสวิตช์เปิด-ปิดไฟ</li>
+      </ul>
+
+      <h2>วัตถุประสงค์</h2>
+      <ul>
+        <li>สร้างระบบเปิด-ปิดไฟอัตโนมัติตามเวลา</li>
+        <li>ช่วยประหยัดพลังงาน ลดค่าไฟ</li>
+        <li>เพิ่มความสะดวกให้ผู้ใช้</li>
+        <li>เรียนรู้เทคโนโลยี IoT</li>
+      </ul>
+
+      <h2>อุปกรณ์ที่ใช้</h2>
+      <ul>
+        <li>Arduino หรือ NodeMCU (ตัวควบคุม)</li>
+        <li>โมดูล RTC DS3231 (ตั้งเวลา)</li>
+        <li>รีเลย์ (สวิตช์เปิดปิดไฟ)</li>
+        <li>สายไฟและอุปกรณ์อื่นๆ</li>
+      </ul>
+
+      <h2>สรุปผลงาน</h2>
+      <ul>
+        <li>ควบคุมการเปิด-ปิดไฟอัตโนมัติตามเวลา</li>
+        <li>ช่วยประหยัดไฟและใช้ง่าย</li>
+        <li>เหมาะสำหรับบ้านและอาคาร</li>
+        <li>เป็นพื้นฐานการทำ Smart Home</li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>Kittanay</p>
+    </footer>
+  </div>
+
+  <script>
+    function setStatus(state) {
+      const status = document.getElementById("status");
+      status.textContent = state;
+      status.className = state === 'เปิด' ? 'on' : 'off';
+      
+      // เพิ่มเอฟเฟกต์เมื่อเปลี่ยนสถานะ
+      status.style.animation = 'none';
+      void status.offsetWidth; // Trigger reflow
+      status.style.animation = 'pulse 0.5s';
+    }
+
+    // เพิ่ม animation สำหรับปุ่ม
+    document.querySelectorAll('button').forEach(button => {
+      button.addEventListener('click', function() {
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 200);
+      });
+    });
+
+    // เพิ่ม style สำหรับ animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
